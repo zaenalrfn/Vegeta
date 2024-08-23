@@ -4,11 +4,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { hover } from "@/lib/hover";
 import { cn } from "@/lib/utils";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { useState } from "react";
 import {useForm} from "react-hook-form";
 import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup"
+import {signIn} from "next-auth/react"
+import { useToast } from "@/components/ui/use-toast";
+import { title } from "process";
 
 type UserAuthForm = {
   email: string;
@@ -24,12 +27,36 @@ function SignInForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const router = useRouter();
+  const searchParams = useSearchParams()
+  const {toast} = useToast()
+
   const {handleSubmit, register, formState: {errors}} = useForm<UserAuthForm>({
     resolver: yupResolver(schema)
   })
   
-  const onSubmit = (data: UserAuthForm) => {
-    console.log("🚀 ~ onSubmit ~ data:", data)
+  const onSubmit = async (data: UserAuthForm) => {
+    try {
+      const user = await signIn('credentials', {
+        email: data.email,
+        password: data.password,
+        callbackUrl: searchParams.get('callbackUrl') ||  "/", // untuk ngedirect ke halaman yang sebelumnya kita akses terlebih dahulu
+        redirect: false
+      })
+      if(!user?.error) {
+        router.push(user?.url || "/")
+      } else {
+        toast({
+          title: "Something went wrong",
+          description: "Please check your email and password",
+          variant: "destructive",
+          duration: 2000
+        })
+      }
+      console.log("🚀 ~ onSubmit ~ user:", user)
+    } catch (error) {
+      console.log("🚀 ~ onSubmit ~ error:", error)
+      
+    }
   }
 
   return (
