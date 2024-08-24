@@ -11,7 +11,7 @@ import * as yup from "yup";
 import {yupResolver} from "@hookform/resolvers/yup"
 import {signIn} from "next-auth/react"
 import { useToast } from "@/components/ui/use-toast";
-import { title } from "process";
+
 
 type UserAuthForm = {
   email: string;
@@ -52,7 +52,6 @@ function SignInForm() {
           duration: 2000
         })
       }
-      console.log("🚀 ~ onSubmit ~ user:", user)
     } catch (error) {
       console.log("🚀 ~ onSubmit ~ error:", error)
       
