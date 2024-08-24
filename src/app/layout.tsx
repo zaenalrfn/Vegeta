@@ -9,6 +9,8 @@ import { cn } from "@/lib/utils";
 
 // styles
 import "./globals.css";
+// provider 
+import Provider from "./provider";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -34,7 +36,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={cn(poppins.className, "text-neutral-600")}>
+        <Provider>
         {children}
+        </Provider>
         <Toaster />
       </body>
     </html>
