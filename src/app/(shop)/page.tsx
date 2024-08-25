@@ -17,7 +17,6 @@ import { useGetAllProductsQuery } from "@/services/product";
 export default function Home() {
 
   const {data} = useGetAllProductsQuery({})
-  console.log("🚀 ~ Home ~ data:", data)
 
   return (
     <main className="flex flex-col w-full min-h-screen items-center pb-8">
@@ -42,7 +41,7 @@ export default function Home() {
               Lihat Selengkapnya {">"}
             </Link>
           </div>
-          <ProductShowcase gridConfig={"grid-cols-4"} products={ProductsJSON} />
+          <ProductShowcase gridConfig={"grid-cols-4"} products={data?.data?.slice(0, 4) || [] } />
         </div>
 
         <div className="mt-8">
