@@ -38,7 +38,7 @@ const ProductShowcase: React.FC<ShowcaseProps> = ({ gridConfig, products, isLoad
         ) : (
           <div className={cn("grid gap-6", gridConfig)}>
             {products?.map((product, index) => (
-              <Link key={`productCard${index}`} href={"/product/detail/1"}>
+              <Link key={`productCard${index}`} href={`/product/detail/${product.id}`}>
                 <ProductCard details={product} />
               </Link>
             ))}
