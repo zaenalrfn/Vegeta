@@ -62,7 +62,7 @@ export default function Products() {
                   </Select>
                 </div>
               </div>
-              <ProductShowcase gridConfig={"grid-cols-3"} products={data?.data || []} isLoading={isLoading} />
+              <ProductShowcase gridConfig={"grid-cols-3"} products={data?.data?.data || []} isLoading={isLoading} />
 
               <div className="py-12">
                 <CommonPagination page={activePage} total={totalPage} onChange={(activePage) => setActivePage(activePage)} />
@@ -81,7 +81,7 @@ export default function Products() {
             Lihat Selengkapnya {">"}
           </Link>
         </div>
-        <ProductShowcase gridConfig={"grid-cols-4"} products={recommendationProducts?.data.slice(0, 4) || []} isLoading={recommendationIsloading} />
+        <ProductShowcase gridConfig={"grid-cols-4"} products={recommendationProducts?.data?.data.slice(0, 4) || []} isLoading={recommendationIsloading} />
       </div>
     </main>
   );

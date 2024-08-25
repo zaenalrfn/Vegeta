@@ -35,7 +35,7 @@ export default function Home() {
               Lihat Selengkapnya {">"}
             </Link>
           </div>
-          <ProductShowcase gridConfig={"grid-cols-4"} products={data?.data?.slice(0, 4) || []} isLoading={isLoading} />
+          <ProductShowcase gridConfig={"grid-cols-4"} products={data?.data?.data.slice(0, 4) || []} isLoading={isLoading} />
         </div>
 
         <div className="mt-8">
