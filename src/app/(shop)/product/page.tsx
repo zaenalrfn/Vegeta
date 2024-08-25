@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 // components
 import FilterCategory from "@/components/filter/filter-category";
@@ -18,15 +18,35 @@ import { hover } from "@/lib/hover";
 // assets
 import ProductsJSON from "@/assets/json/products.json";
 import { useGetAllProductsQuery } from "@/services/product";
+import { Key } from "lucide-react";
+import { Value } from "@radix-ui/react-select";
+import {useRouter, useSearchParams } from "next/navigation";
 
 export default function Products() {
   const isNoData = false;
 
   const [activePage, setActivePage] = useState(1);
-  const [totalPage] = useState(5);
-
+  
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const { data, isLoading } = useGetAllProductsQuery({});
-  const { data: recommendationProducts, isLoading: recommendationIsloading } = useGetAllProductsQuery({});
+  const { data: recommendationProducts, isLoading: recommendationIsloading } = useGetAllProductsQuery({
+    page: searchParams.get("page") || undefined,
+  });
+
+  const handleChangeFilter = (key: string, value: string) => {
+    const newQuery: Record<string, string> = {};
+    searchParams.forEach((param, key) => {
+      newQuery[key] = param
+    });
+    newQuery[key] = value
+    const urlParams = new URLSearchParams(newQuery).toString();
+    router.replace(`/product?${urlParams}`)
+  }
+
+  useEffect(() => {
+    handleChangeFilter('page', activePage.toString())
+  }, [activePage])
 
   return (
     <main className="flex flex-col w-full min-h-screen items-center pb-8">
@@ -65,7 +85,7 @@ export default function Products() {
               <ProductShowcase gridConfig={"grid-cols-3"} products={data?.data?.data || []} isLoading={isLoading} />
 
               <div className="py-12">
-                <CommonPagination page={activePage} total={totalPage} onChange={(activePage) => setActivePage(activePage)} />
+                <CommonPagination page={activePage} total={data?.data.total ? Math.ceil(data?.data.total / 9) : 1}  onChange={(activePage) => setActivePage(activePage)} />
               </div>
             </>
           )}
