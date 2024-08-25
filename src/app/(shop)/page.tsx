@@ -1,3 +1,4 @@
+"use client"
 import Image from "next/legacy/image";
 import Link from "next/link";
 
@@ -10,8 +11,14 @@ import { AspectRatio } from "@/components/ui/aspect-ratio";
 import ProductCategoryJSON from "@/assets/json/product-category.json";
 import ProductsJSON from "@/assets/json/products.json";
 import ImageBanner from "@/assets/images/image-banner.png";
+// services
+import { useGetAllProductsQuery } from "@/services/product";
 
 export default function Home() {
+
+  const {data} = useGetAllProductsQuery({})
+  console.log("🚀 ~ Home ~ data:", data)
+
   return (
     <main className="flex flex-col w-full min-h-screen items-center pb-8">
       <div className="w-content">
