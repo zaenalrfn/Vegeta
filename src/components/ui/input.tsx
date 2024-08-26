@@ -31,16 +31,16 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
             type={type}
             className={cn(
               "flex px-3 py-2 h-10 w-full rounded-md border border-input bg-background text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50",
-              className,
               { "pl-10": !!props.prefix },
-              { "pr-10": !!props.suffix }
+              { "pr-10": !!props.suffix },
+             
             )}
             ref={ref}
             {...props}
           />
 
           {props.prefix && (
-            <div className="absolute top-1/2 py-[10px] px-3 text-sm">
+            <div className="absolute top-1 py-[6px] px-3 text-sm">
               {_renderPrefixSuffix(props.prefix)}
             </div>
           )}

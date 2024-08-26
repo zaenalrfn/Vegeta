@@ -57,7 +57,9 @@ export default function Products() {
           <div className="w-full separator my-4" />
           <FilterCategory value={searchParams.get("category")?.split(",")} onChange={(selectedCategories) => handleChangeFilter("category", selectedCategories.join(","))} />
           <div className="w-full separator my-4" />
-          <FilterPrice />
+          <FilterPrice value={{}} onChange={(price) => {
+            console.log("🚀 ~ Products ~ price:", price)
+          }} />
           <div className="w-full separator my-4" />
           <FilterRating />
         </div>
