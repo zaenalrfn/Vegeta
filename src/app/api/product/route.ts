@@ -9,6 +9,8 @@ export async function GET(req: NextRequest) {
     const query = req.nextUrl.searchParams;
     const page = query.get("page") ? parseInt(query.get("page") as string) - 1 : 0;
     const categories = query.get("category")?.split(",") || undefined;
+    const minPrice = query.get("min_price") ? parseInt(query.get("min_price") as string) : undefined;
+    const maxPrice = query.get("max_price") ? parseInt(query.get("max_price") as string) : undefined;
     const skip = page * take;
 
     const queryConditions = {
@@ -16,6 +18,10 @@ export async function GET(req: NextRequest) {
         {
           category: {
             in: categories as ProductCategory[],
+          },
+          price: {
+            gte: minPrice, // lebih dari
+            lte: maxPrice,  // kurang dari
           }
         }
       ]
