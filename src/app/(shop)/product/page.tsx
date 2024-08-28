@@ -32,6 +32,8 @@ export default function Products() {
   const { data, isLoading } = useGetAllProductsQuery({
     page: searchParams.get("page") || undefined,
     category: searchParams.get("category") || undefined,
+    min_price: searchParams.get("min_price") || undefined,
+    max_price: searchParams.get("max_price") || undefined,
   });
   const { data: recommendationProducts, isLoading: recommendationIsloading } = useGetAllProductsQuery({});
 
@@ -57,8 +59,15 @@ export default function Products() {
           <div className="w-full separator my-4" />
           <FilterCategory value={searchParams.get("category")?.split(",")} onChange={(selectedCategories) => handleChangeFilter("category", selectedCategories.join(","))} />
           <div className="w-full separator my-4" />
-          <FilterPrice value={{}} onChange={(price) => {
-            console.log("🚀 ~ Products ~ price:", price)
+          <FilterPrice value={{
+            min: searchParams?.get("min_price") ? parseInt(searchParams?.get("min_price") as string) : undefined,
+            max: searchParams?.get("max_price") ? parseInt(searchParams?.get("max_price") as string) : undefined
+          }} onChange={(price) => {
+            if(price.min !== parseInt(searchParams?.get('min_price') as string)) {
+              handleChangeFilter('min_price', `${price.min}`)
+            } else {
+              handleChangeFilter('max_price', `${price.max}`)
+            }
           }} />
           <div className="w-full separator my-4" />
           <FilterRating />
