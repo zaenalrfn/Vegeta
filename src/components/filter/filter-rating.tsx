@@ -32,7 +32,7 @@ const FilterRating: React.FC<FilterRatingProps> = ({ value = [], onChange }) => 
             <Checkbox
               className="w-6 h-6 border-2 border-leaf data-[state=checked]:bg-leaf data-[state=checked]:text-primary-foreground"
               id={`rate-${rate}`}
-              onChange={(isChecked) => {
+              onCheckedChange={(isChecked) => {
                 setSelectedRating((selectedRating) => {
                   const newRating = !isChecked ? selectedRating.filter((val) => val !== rate) : [...selectedRating, rate];
                   onChange(newRating)
