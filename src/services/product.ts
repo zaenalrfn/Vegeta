@@ -2,7 +2,12 @@ import BaseResponse from "@/types/response";
 import { Product } from "@prisma/client";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/dist/query/react";
 
-interface ProductResponse extends BaseResponse {
+interface ProductResponse extends BaseResponse { 
+    data: Product; 
+
+}
+
+interface ProductsResponse extends BaseResponse {
     data: {
         total: number;
         data: Product[]; 
@@ -24,7 +29,7 @@ export const productApi = createApi({
     }),
     tagTypes: ["product"],
     endpoints: (builder) => ({
-        getAllProducts: builder.query<ProductResponse, ProductApiParams>({
+        getAllProducts: builder.query<ProductsResponse, ProductApiParams>({
             query: ({page, category, min_price, max_price, rating}) => ({
                 url: "/",
                 params: {
@@ -35,7 +40,13 @@ export const productApi = createApi({
                     rating: rating || undefined,
                 }
             })
+        }),
+        getProductById: builder.query<ProductResponse, string>({
+            query: (id) => ({
+                url: `/${id}`
+            })
         })
+
     })
 })
 
