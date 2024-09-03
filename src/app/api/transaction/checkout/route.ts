@@ -6,7 +6,7 @@ import { NextRequest } from "next/server";
 
 
 export async function POST(req: NextRequest) {
-    const session = await getServerSession(authOptions)
+    // const session = await getServerSession(authOptions)
     const payload = await req.json()
     const product = await prisma.product.findFirst({
         where: {
@@ -24,9 +24,9 @@ export async function POST(req: NextRequest) {
     const checkout = await prisma.checkout.create({
         data: {
             productId: product.id,
-            userId: session?.user.id,
+            userId: "cm06r6qjm0001uo6wky395xw6", //session?.user.id,
             qty: payload.qty,
-            pricePerItem: payload.price
+            pricePerItem: product.price
         }
     })
 
